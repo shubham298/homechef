@@ -36,9 +36,10 @@ exports.getSeller = asyncHandler(async (req, res, next) => {
 //@route       Post /api/v1/sellers
 //@access      Private
 exports.createSeller = asyncHandler(async (req, res, next) => {
-
-    console.log(req.user);
+    console.log(req.user.id)
     req.body.user = req.user.id
+
+    console.log(`req body : ${JSON.stringify(req.body)}`)
     const seller = await Seller.create(req.body);
     if (!seller) {
         return next(new ErrorResponse(`Error for creating Seller`, 404))

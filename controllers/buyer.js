@@ -1,18 +1,17 @@
-const User=require('../models/Users');
+const Buyer=require('../models/Buyer');
 const asyncHandler=require('../middleware/async');
 const ErrorResponse=require('../utils/errorResponse')
 //@desc        Get a Buyer
 //@route       Get /api/v1/users
 //@access      Public
 exports.getBuyers =asyncHandler( async (req, res, next) => {
-const users= await User.find();
-console.log(users)
-if(!users){
+const buyers= await Buyer.find();
+if(!buyers){
     return next(new ErrorResponse('Buyer is empty',404))
 }
     res.status(201).json({
         success:true,
-        data:users
+        data:buyers
     });
 
 })
@@ -21,13 +20,14 @@ if(!users){
 //@route       POST /api/v1/users
 //@access      Public
 exports.addBuyer =asyncHandler( async (req, res, next) => {
-    const user= await User.create(req.body);
-    if(!user){
+    req.body.user=req.user
+    const buyer= await Buyer.create(req.body);
+    if(!buyer){
         return next(new ErrorResponse(`Error for creating Buyer`,404))
     }
     res.status(201).json({
         success:true,
-        data:user
+        data:buyer
     });
     
     })
@@ -37,10 +37,10 @@ exports.addBuyer =asyncHandler( async (req, res, next) => {
 //@access      Private
 exports.deleteBuyer = asyncHandler(async (req, res, next) => {
  
-    const user=await User.findByIdAndDelete(req.params.id)   
-    if(!user){
+    const buyer=await Buyer.findByIdAndDelete(req.params.id)   
+    if(!buyer){
      return next(new ErrorResponse(`Buyer not found for id ${req.params.id}`,404))
     }
-        res.status(200).json({success:true,count:user.length,data:user});
+        res.status(200).json({success:true,count:buyer.length,data:buyer});
     
 })
