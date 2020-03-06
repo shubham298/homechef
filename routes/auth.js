@@ -13,6 +13,6 @@ router.route('/register')
 router.route('/login')
     .post(Login)
 router.route('/me')
-    .get(protect,authorize('seller','buyer','superadmin'),getMe)
+    .get(protect,authorize('seller','superadmin','buyer'),getMe)
 
 module.exports=router

@@ -5,9 +5,9 @@ const ErrorResponse=require('../utils/errorResponse')
 //@route       POST /api/v1/auth/register
 //@access      Public
 exports.register =asyncHandler( async (req, res, next) => {
-const {name,desciption,password,email,role}=req.body;
+//const {name,password,email,role,address}=req.body;
 
-const user=await User.create({name,desciption,password,email,role});
+const user=await User.create(req.body);
 
 if(!user){
     return next(new ErrorResponse(`Error for creating User`,404))
