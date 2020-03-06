@@ -1,6 +1,4 @@
 const Menu = require('../models/Menu')
-const User = require('../models/Users')
-const mongoose=require('mongoose')
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 //@desc        Get all menu
@@ -12,14 +10,12 @@ exports.getAllmenus = asyncHandler(async (req, res, next) => {
     );
 })
 
-//@desc        Get single menu
+//@desc        Get single menu based on menuid
 //@route       Get /api/v1/menu/:id
 //@access      Public
 exports.getMenu = asyncHandler(async (req, res, next) => {
-console.log(typeof(req.params.id))
-    const menu = await Menu.find({user:mongoose.Types.ObjectId(req.params.id)});
-   
-
+    
+    const menu = await Menu.findById(req.params.id);
     if (!menu) {
         return next(new ErrorResponse(`Menu not found for id ${req.params.id}`, 404))
     }
@@ -30,14 +26,36 @@ console.log(typeof(req.params.id))
 
 })
 
+//@desc        Get single menu based on sellerid
+//@route       Get /api/v1/menus/sellerMenu/:sellerId
+//@access      Public
+exports.sellerMenu = asyncHandler(async (req, res, next) => {
+    
+    const seller = await Menu.findOne({user:req.params.sellerId});
+    if (!seller) {
+        return next(new ErrorResponse(`Seller not found for id ${req.params.id}`, 404))
+    }
+
+    res.status(200).json({
+        success: true,
+        data: seller
+    });
+
+})
+
 //@desc        Create new menu
 //@route       Post /api/v1/menu
-//@access      Private
+//@access      PRIVATE
 exports.createMenu = asyncHandler(async (req, res, next) => {
     console.log(req.user.id)
     req.body.user = req.user.id
-
+    const count=await Menu.findOne({user:req.user.id})
+    if(count){
+        return next(new ErrorResponse('You can only add one menu per seller'))
+    }
+    
     const menu = await Menu.create(req.body);
+
     if (!menu) {
         return next(new ErrorResponse(`Error for creating Menu`, 404))
     }

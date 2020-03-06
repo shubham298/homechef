@@ -5,10 +5,11 @@ const geopip=require('geoip-lite')
 
 const MenuSchema = new mongoose.Schema(
   {
-    category: {
+    name: {
       type: String,
-      required: [true, 'Please add a category'],
+      required: [true, 'Please add a name'],
       trim: true,
+      unique:true,
       maxlength: [50, 'category can not be more than 50 characters']
     },
     slug: String,
@@ -36,7 +37,7 @@ const MenuSchema = new mongoose.Schema(
 
 // Create bootcamp slug from the name
 MenuSchema.pre('save', function(next) {
-  this.slug = slugify(this.category, { lower: true });
+  this.slug = slugify(this.name, { lower: true });
   next();
 });
 

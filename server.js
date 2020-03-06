@@ -21,10 +21,10 @@ dotenv.config({
 connectDB()
 
 //Route files
-const menu = require('./routes/menu.js')
-const superAdmin = require('./routes/superAdmin')
+const menus= require('./routes/menu.js')
+const superAdmins = require('./routes/superAdmin')
 const auth = require('./routes/auth.js')
-const item = require('./routes/item.js')
+const items = require('./routes/item.js')
 
 
 //Dev logging middleware
@@ -39,10 +39,10 @@ app.get('/',(req,res)=>{
 })
 // app.use(logger)
 //Mount routers
-app.use('/api/v1/menu', menu)
-app.use('/api/v1/superAdmin', superAdmin)
+app.use('/api/v1/menus', menus)
+app.use('/api/v1/superAdmins', superAdmins)
 app.use('/api/v1/auth', auth)
-app.use('/api/v1/item', item)
+app.use('/api/v1/items', items)
 
 //Error Middleware
 app.use(errorHandler)
