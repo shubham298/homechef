@@ -34,5 +34,7 @@ exports.createItem = asyncHandler(async (req, res, next) => {
 exports.getItems = asyncHandler(async (req, res, next) => {
   res.json(
     res.advancedResults
+    
+
 );
 });

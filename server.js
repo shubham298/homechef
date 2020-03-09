@@ -25,6 +25,7 @@ const menus= require('./routes/menu.js')
 const superAdmins = require('./routes/superAdmin')
 const auth = require('./routes/auth.js')
 const items = require('./routes/item.js')
+const users = require('./routes/user.js')
 
 
 //Dev logging middleware
@@ -43,6 +44,7 @@ app.use('/api/v1/menus', menus)
 app.use('/api/v1/superAdmins', superAdmins)
 app.use('/api/v1/auth', auth)
 app.use('/api/v1/items', items)
+app.use('/api/v1/users', users)
 
 //Error Middleware
 app.use(errorHandler)
