@@ -53,7 +53,6 @@ exports.createMenu = asyncHandler(async (req, res, next) => {
     if(count){
         return next(new ErrorResponse('You can only add one menu per seller'))
     }
-    
     const menu = await Menu.create(req.body);
 
     if (!menu) {

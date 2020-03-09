@@ -111,7 +111,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 });
 
 
-//@desc        Reset a User
+//@desc        Reset User password
 //@route       POST /api/v1/auth/resetPassword
 //@access      Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
@@ -137,6 +137,45 @@ await user.save();
 
 sendTokenResponse(user, 200, res);
 })
+
+// @desc      Update password
+// @route     PUT /api/v1/auth/updatepassword
+// @access    Private
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select('+password');
+
+  // Check current password
+  if (!(await user.matchPassword(req.body.currentPassword))) {
+    return next(new ErrorResponse('Password is incorrect', 401));
+  }
+
+  user.password = req.body.newPassword;
+  await user.save();
+
+  sendTokenResponse(user, 200, res);
+});
+
+// @desc      Update details
+// @route     POST /api/v1/auth/updateDetail
+// @access    Private
+exports.updatedetails = asyncHandler(async (req, res, next) => {
+
+  const name=req.body.name;
+  const email=req.body.email;
+
+  const user = await User.findById(req.user.id)
+
+ if(!user){
+   next(new ErrorResponse('invalid credentials'))
+ }
+
+  user.name = name;
+  user.email=email;
+  await user.save();
+
+  sendTokenResponse(user, 200, res);
+});
+
 
 // Get token from model, create cookie and send response
 

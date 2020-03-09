@@ -43,7 +43,7 @@ MenuSchema.pre('save', function(next) {
 
 
 
-// Cascade delete courses when a bootcamp is deleted
+// Cascade delete items when a menu is deleted
 MenuSchema.pre('remove', async function(next) {
   console.log(`Items being removed from bootcamp ${this._id}`);
   await this.model('Items').deleteMany({ menu: this._id });

@@ -28,13 +28,11 @@ exports.createItem = asyncHandler(async (req, res, next) => {
     });
   });
 
-  // @desc    GET all items
+// @desc    GET all items
 // @route     GET /api/v1/items/
 // @access    PUBLIC
 exports.getItems = asyncHandler(async (req, res, next) => {
   res.json(
     res.advancedResults
-    
-
 );
 });
