@@ -1,6 +1,10 @@
-const express = require("express")
+const express = require("express"),
+    mongoSanitize = require('express-mongo-sanitize'),
+    helmet=require('helmet'),
+    xss = require('xss-clean');
+    rateLimit = require('express-rate-limit');
+    hpp = require('hpp');
 const dotenv = require("dotenv")
-const logger = require('./middleware/logger.js')
 const morgan = require('morgan')
 const colors = require('colors')
 const connectDB = require('./config/db')
@@ -12,6 +16,22 @@ const app = express();
 app.use(express.json())
 // Cookie parser
 app.use(cookieParser());
+ 
+// To remove data, use:
+app.use(mongoSanitize());
+
+app.use(helmet())
+
+app.use(xss())
+ 
+//prevent http param pollution
+app.use(hpp())
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 1 // limit each IP to 100 requests per windowMs
+  });
+
+app.use(limiter);
 
 //Load env vars
 dotenv.config({
