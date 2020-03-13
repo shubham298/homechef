@@ -10,6 +10,8 @@ const colors = require('colors')
 const connectDB = require('./config/db')
 const errorHandler=require('./middleware/error.js')
 const cookieParser = require('cookie-parser');
+const fileupload=require('express-fileupload')
+
 const app = express();
 
 //Body parser //use for req.body
@@ -28,7 +30,7 @@ app.use(xss())
 app.use(hpp())
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 1 // limit each IP to 100 requests per windowMs
+    max: 100// limit each IP to 100 requests per windowMs
   });
 
 app.use(limiter);
@@ -46,6 +48,8 @@ const auth = require('./routes/auth.js')
 const items = require('./routes/item.js')
 const users = require('./routes/user.js')
 
+//File upload 
+app.use(fileupload())
 
 //Dev logging middleware
 if (process.env.NODE_ENV === 'development') {

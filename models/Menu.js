@@ -18,6 +18,10 @@ const MenuSchema = new mongoose.Schema(
       // required: [true, 'Please add a description'],
       maxlength: [500, 'Description can not be more than 500 characters']
     },
+    photo:{
+      type:'String',
+      default:'no-photo.jpg'
+    },
     totalCost: Number,
     user: {
       type: mongoose.Schema.ObjectId,
