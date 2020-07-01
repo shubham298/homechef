@@ -15,7 +15,7 @@ exports.getAllmenus = asyncHandler(async (req, res, next) => {
 //@route       Get /api/v1/menu/:id
 //@access      Public
 exports.getMenu = asyncHandler(async (req, res, next) => {
-    
+  
     const menu = await Menu.findById(req.params.id);
     if (!menu) {
         return next(new ErrorResponse(`Menu not found for id ${req.params.id}`, 404))

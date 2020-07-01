@@ -10,10 +10,12 @@ const colors = require('colors')
 const connectDB = require('./config/db')
 const errorHandler=require('./middleware/error.js')
 const cookieParser = require('cookie-parser');
+var cors = require('cors');
 const fileupload=require('express-fileupload')
 
 const app = express();
-
+//CORS
+app.use(cors());
 //Body parser //use for req.body
 app.use(express.json())
 // Cookie parser
