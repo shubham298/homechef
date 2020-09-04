@@ -22,7 +22,6 @@ const MenuSchema = new mongoose.Schema(
       type:'String',
       default:'no-photo.jpg'
     },
-    totalCost: Number,
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'Users',
