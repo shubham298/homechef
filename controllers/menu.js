@@ -48,7 +48,6 @@ exports.sellerMenu = asyncHandler(async (req, res, next) => {
 //@route       Post /api/v1/menu
 //@access      PRIVATE
 exports.createMenu = asyncHandler(async (req, res, next) => {
-    console.log(req.user.id)
     req.body.user = req.user.id
     const count=await Menu.findOne({user:req.user.id})
     if(count){
@@ -67,15 +66,15 @@ exports.createMenu = asyncHandler(async (req, res, next) => {
 })
 
 
-//@desc        Update new seller
-//@route       PUT /api/v1/sellers/:id
+//@desc        Update new menu
+//@route       PUT /api/v1/menus/:id
 //@access      Private
 exports.updateMenu = asyncHandler(async (req, res, next) => {
     const menu = await Menu.findByIdAndUpdate(req.params.id, req.body, {
         new: true, //res will have updated data
         runValidators: true //it will run mongoose validator
     })
-    if (menu.user.toString() !== req.user.id && req.user.role!=="seller") {
+    if (menu.user.toString() != req.user.id && req.user.role!="seller") {
         next(new ErrorResponse(`${req.user.name} is not autorised to update this seller of ${req.params.id}`, 404));
     }
 
@@ -90,7 +89,7 @@ exports.updateMenu = asyncHandler(async (req, res, next) => {
 })
 
 //@desc        Delete a menu
-//@route       DELETE /api/v1/sellers/:id
+//@route       DELETE /api/v1/menus/:id
 //@access      Private
 exports.deleteMenu = asyncHandler(async (req, res, next) => {
 
@@ -111,13 +110,13 @@ exports.deleteMenu = asyncHandler(async (req, res, next) => {
 })
 
 //@desc        Location seller
-//@route       GET /api/v1/sellers/:distance/:zipcode
+//@route       GET /api/v1/menus/:distance/:zipcode
 //@access      Private
 exports.locateSeller = asyncHandler(async (req, res, next) => {
 
 })
 
-// @desc      Upload photo for bootcamp
+// @desc      Upload photo for menu
 // @route     PUT /api/v1/menus/:id/photo
 // @access    Private
 exports.menuPhotoUpload = asyncHandler(async (req, res, next) => {
@@ -128,11 +127,11 @@ exports.menuPhotoUpload = asyncHandler(async (req, res, next) => {
       );
     }
 
-    // Make sure user is bootcamp owner
+    // Make sure user is seller 
     if (menu.user.toString() !== req.user.id && req.user.role !== 'seller' ) {
       return next(
         new ErrorResponse(
-          `User ${req.user.id} is not authorized to update this bootcamp`,
+          `User ${req.user.id} is not authorized to update this seller`,
           401
         )
       );

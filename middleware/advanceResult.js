@@ -1,31 +1,31 @@
 const advancedResult = (model, populate) => async (req, res, next) => {
     let query;
   
+  //* The purpose of from line 4 to 20 is to remove param fields and only grab json operator($gt,$gte..)
     // Copy req.query
-    const reqQuery = { ...req.query };
+    const reqQuery = { ...req.query };  //? req.query is a Object of param fields , example: select & limit are two seperate param
   
-    // Fields to exclude
+    // *Fields to exclude
     const removeFields = ['select', 'sort', 'page', 'limit'];
-  
     // Loop over removeFields and delete them from reqQuery
     removeFields.forEach(param => delete reqQuery[param]);
-  
-    // Create query string
+
+    // *Create query string
     let queryStr = JSON.stringify(reqQuery);
   
-    // Create operators ($gt, $gte, etc)
+    // *Create operators ($gt, $gte, etc)
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
   
-    // Finding resource
+    // *Finding resource
     query = model.find(JSON.parse(queryStr));
   
-    // Select Fields
+    // *Select Fields
     if (req.query.select) {
       const fields = req.query.select.split(',').join(' ');
       query = query.select(fields);
     }
   
-    // Sort
+    // *Sort
     if (req.query.sort) {
       const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);

@@ -1,7 +1,10 @@
 const express = require('express');
 const {
    createItem,
-   getItems
+   getItems,
+   getItem,
+   updateItem,
+   deleteItem
 } = require('../controllers/item')
 //Middelware
 const {protect,authorize}=require('../middleware/auth.js')
@@ -17,6 +20,11 @@ router.route('/')
         select: 'slug menu user'
       }),getItems)
 router.route('/').post(protect,authorize('seller','superadmin'),createItem)
+
+router.route('/:id')
+  .get(getItem)
+  .put(protect,authorize('seller','superadmin'),updateItem)
+  .delete(protect,authorize('seller','superadmin'),deleteItem)
 
 //router.route('/:distance/:zipcode').get(locateSeller)
 module.exports = router;

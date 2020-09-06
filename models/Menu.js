@@ -48,16 +48,16 @@ MenuSchema.pre('save', function(next) {
 
 // Cascade delete items when a menu is deleted
 MenuSchema.pre('remove', async function(next) {
-  console.log(`Items being removed from bootcamp ${this._id}`);
+  console.log(`Items being removed from menu ${this._id}`);
   await this.model('Items').deleteMany({ menu: this._id });
   next();
 });
 
 // Reverse populate with virtuals
 MenuSchema.virtual('items', {
-  ref: 'Items',
-  localField: '_id',
-  foreignField: 'menu',
+  ref: 'Items',//The model to use
+  localField: '_id',//find items where _id =
+  foreignField: 'menu',// menu 
   justOne: false
 });
 
