@@ -5,7 +5,8 @@ const {
    getItem,
    updateItem,
    deleteItem,
-   itemPhotoUpload
+   itemPhotoUpload,
+   getSellerItems
 } = require('../controllers/item')
 //Middelware
 const {protect,authorize}=require('../middleware/auth.js')
@@ -21,6 +22,7 @@ router.route('/')
         select: 'slug menu user'
       }),getItems)
 router.route('/').post(protect,authorize('seller','superadmin'),createItem)
+router.route('/seller/:id').get(protect,authorize('seller','superadmin'),getSellerItems)
 
 router.route('/:id/photo').put(protect,authorize('seller','superadmin'),itemPhotoUpload)
 

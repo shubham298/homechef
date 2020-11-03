@@ -3,6 +3,7 @@ const Item = require('../models/Items')
 const path = require('path')
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
+const Users = require('../models/Users')
 
 // @desc      CREATE A ITEM
 // @route     POST /api/v1/menus/:menuId/items
@@ -37,6 +38,24 @@ exports.getItems = asyncHandler(async (req, res, next) => {
   res.json(
     res.advancedResults
   );
+});
+
+
+// @desc    GET all items for a particular selerid
+// @route     GET /api/v1/seller/:id/items
+// @access    PUBLIC
+exports.getSellerItems = asyncHandler(async (req, res, next) => {
+  
+  Item.find({user: {$in:req.params.id}}, function (err, sellerItems) {
+    if(err){
+      return next(new ErrorResponse(`items not found for sellerid ${req.params.id}`, 404));
+    }else{
+      res.json(
+        sellerItems
+      )
+    }
+  });
+  
 });
 
 //@desc        Get single item based on itemid

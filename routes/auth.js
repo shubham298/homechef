@@ -8,7 +8,7 @@ getMe,
 resetPassword,
 forgotPassword,
 updatePassword,
-updatedetails
+updatedetails,
 }=require('../controllers/auth')
 
 const {protect,authorize}=require('../middleware/auth')
