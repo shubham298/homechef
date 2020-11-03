@@ -194,11 +194,15 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true; //It will be send through HTTPS
   }
 
+  let data = {}
+  data.name = user.name
+
   res
     .status(statusCode)
     .cookie('token', token, options)
     .json({
       success: true,
-      token
+      token,
+      data
     });
 };
